@@ -38,7 +38,7 @@ import UIKit
 /// 📌 버블 정렬 구현 (Bubble Sort)
 /// - 입력: 정렬되지 않은 정수 배열
 /// - 출력: 오름차순으로 정렬된 배열
-/// 
+///
 func bubbleSort(array: [Int]) -> [Int] {
     var arr = array
     var swapped: Bool  // 데이터 교환 여부를 확인하는 변수
@@ -59,4 +59,28 @@ func bubbleSort(array: [Int]) -> [Int] {
 // ✅ 테스트 실행
 var testArray = bubbleSort(array: [1, 9, 3, 2])
 print(testArray) // [1, 2, 3, 9]
+
+
+// 삽입 정렬
+
+// 📌 삽입 정렬 (Insertion Sort)
+func insertionSort(array: [Int]) -> [Int] {
+    var arr = array
+    
+    for index in 1..<arr.count {  // 0번째 요소는 이미 정렬된 상태이므로 1부터 시작
+        for index2 in stride(from: index, through: 1, by: -1) {  // 역순으로 비교
+            if arr[index2] < arr[index2 - 1] {  // 바로 앞의 값과 비교
+                arr.swapAt(index2, index2 - 1)
+            } else {
+                break  // 현재 위치보다 작은 값이 나오면 정렬 완료
+            }
+        }
+    }
+    
+    return arr
+}
+
+// ✅ 테스트 실행
+var testArray2 = insertionSort(array: [9, 3, 2, 5])
+print(testArray2)  // [2, 3, 5, 9]
 
