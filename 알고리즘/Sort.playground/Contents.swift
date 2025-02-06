@@ -84,3 +84,25 @@ func insertionSort(array: [Int]) -> [Int] {
 var testArray2 = insertionSort(array: [9, 3, 2, 5])
 print(testArray2)  // [2, 3, 5, 9]
 
+
+// 선택 정렬
+
+func selection_sort(array: [Int]) -> [Int] {
+    var arr = array
+    
+    for stand in 0..<arr.count - 1 {
+        var lowest = stand
+        
+        for index in stand + 1 ..< arr.count {
+            if arr[lowest] > arr[index] {
+                lowest = index // 가장 작은 값이 담기도록
+            }
+        }
+        arr.swapAt(lowest, stand) // 한 사이클이 끝나면 기준점과 가장 작은 값을 체인지
+    }
+    
+    return arr
+}
+
+var testArray3 = selection_sort(array: [9, 3, 2, 5])
+print(testArray3)  // [2, 3, 5, 9]
