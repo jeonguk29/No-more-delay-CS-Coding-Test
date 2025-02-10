@@ -106,3 +106,100 @@ func selection_sort(array: [Int]) -> [Int] {
 
 var testArray3 = selection_sort(array: [9, 3, 2, 5])
 print(testArray3)  // [2, 3, 5, 9]
+
+
+
+// 재귀 용법
+// 재귀 함수를 이용해서 1부터 n까지의 곱이 출력 되도록 만드시오
+
+func multiple(num: Int) -> Int {
+    if num <= 1 {
+        return 1
+    }
+    else {
+        return num * multiple(num: num - 1)
+    }
+}
+
+var number = multiple(num: 5)
+print(number)
+
+func multipleArray(array: [Int]) -> Int {
+    if array.count <= 1 {
+        return array[0]
+    }
+    else {
+        return array[0] * multipleArray(array: Array(array[1..<array.count]))
+        // ArraySlice를 Array로 변환해줘야함
+    }
+}
+
+let array = [2, 3, 4]
+print(multipleArray(array: array))  // 결과: 24 (2 * 3 * 4)
+
+/*
+ 회문(palindrome)은 순서를 거꾸로 읽어도 제대로 읽은 것과 같은 단어와 문장을 의미함
+ 회문을 판별할 수 있는 함수를 재귀함수를 활용해서 만들어봅니다.
+ */
+
+func palindrome(string: String) -> Bool {
+    if string.count <= 1 {
+        return true
+    }
+    
+    let firstChar = string.first
+    let lastChar = string.last
+    
+    if firstChar == lastChar {
+        let start = string.index(after: string.startIndex)  // 두 번째 문자
+        let end = string.index(before: string.endIndex)     // 마지막 이전 문자
+        let substring = String(string[start..<end])         // 양 끝 제거 후 부분 문자열
+        
+        return palindrome(string: substring)
+    } else {
+        return false
+    }
+}
+
+print(palindrome(string: "racecar"))  // true
+print(palindrome(string: "apple"))    // false
+
+
+
+// 경우의 수를 나눠 재귀 호출 하기
+//1, 정수 n에 대해
+//2. n이 홀수이면 3 X n + 1 을 하고,
+//3. n이 짝수이면 n 을 2로 나눕니다.
+//4. 이렇게 계속 진행해서 n 이 결국 1이 될 때까지 2와 3의 과정을 반복합니다.
+func caseCalculation(n :Int) -> Int {
+    print(n)
+    
+    if n  ==  1 {
+        return 1
+    }
+    
+    if n % 2 == 0 {
+        var n = n / 2
+        return caseCalculation(n: n)
+    } else{
+        var n = 3 * n + 1
+        return caseCalculation(n: n)
+    }
+    
+}
+caseCalculation(n: 3)
+
+
+func numberOfCases(number: Int) -> Int {
+    if number == 1 {
+        return 1
+    } else if number == 2{
+        return 2
+    } else if number == 3{
+        return 4
+    } else {
+        return numberOfCases(number: number - 1) + numberOfCases(number: number - 2) + numberOfCases(number: number - 3)
+    }
+}
+numberOfCases(number: 5)
+
