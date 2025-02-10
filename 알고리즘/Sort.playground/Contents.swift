@@ -302,3 +302,27 @@ func fibo_dp_9461(num: Int) {
 }
 
 fibo_dp_9461(num: 12)
+
+
+//MARK: 퀵정렬
+
+func quicksort(array : [Int]) -> [Int] {
+    if array.count <= 1 {
+        return array
+    }
+    var leftArray = [Int]()
+    var rightArray = [Int]()
+    var pivot = array[0]
+    
+    for index in 1..<array.count {
+        if array[index] <= pivot {
+            leftArray.append(array[index])
+        }else {
+            rightArray.append(array[index])
+        }
+    }
+    
+    return quicksort(array: leftArray) + [pivot] + quicksort(array: rightArray)
+}
+
+print(quicksort(array: [2, 5, 1, 1, 3, 4]))
