@@ -203,3 +203,102 @@ func numberOfCases(number: Int) -> Int {
 }
 numberOfCases(number: 5)
 
+
+// 동적 계획법
+
+func fibo (num: Int) -> Int {
+    if num <= 1 {
+        return num
+    }
+    else {
+        return fibo(num: num - 1) + fibo(num: num - 2)
+    }
+}
+
+fibo(num: 4)
+
+func fibo_dp (num: Int) -> Int {
+    // Swift에서 동적 프로그래밍(DP) 배열을 초기화할 때 자주 사용되는 문법
+    var dp: [Int] = Array(repeating: 0, count: num + 1)
+    
+    dp[0] = 0
+    dp[1] = 1
+    
+    for i in 2...num {
+        dp[i] = dp[i - 1] + dp[i - 2]
+    }
+    
+    return dp[num]
+}
+
+fibo_dp(num: 10)
+
+/*
+ Array(repeating: 0, count: num + 1)의 의미
+ repeating: 0 → 배열의 모든 요소를 0으로 초기화합니다.
+ count: num + 1 → 배열의 크기를 num + 1로 지정합니다.
+ +1을 하는 이유는 보통 인덱스 0부터 num까지 포함하기 위함
+ */
+
+/*
+ 
+ 풀이 전략
+ - 점화식을 찾아보세요
+ - 점화식이란, 이웃하는 두개의 항 사이에 성립하는 관계를 나타낸 관계식을 의미함
+ - 예: dp[n] = dp[n-1] + dp[n-2]
+ 
+ 코드 작성 패턴
+ 1. 빈리스트 만들기 (입력값에 따른)
+ 2. 초기값을 설정 (1이면 1 등등)
+ 3. 점화식 기반으로 계산값 적용하기
+ 4. 특정 입력값에 따른 계산 값을 리스트에서 추출하기
+ 
+ */
+
+// https://www.acmicpc.net/problem/11726
+
+func fibo_dp_11726(num: Int) {
+    // ✅ 입력값 검증: 1 이상 1000 이하인지 확인
+    guard num >= 1 && num <= 1000 else {
+        print("❌ Error: num은 1 이상 1000 이하의 값이어야 합니다.")
+        return
+    }
+    
+    var dp: [Int] = Array(repeating: 0, count: 1001)
+    dp[1] = 1
+    dp[2] = 2
+    
+    for i in 3...1000 {
+        dp[i] = (dp[i - 1] + dp[i - 2]) % 10007  // ✅ 나머지 연산을 여기에 적용 (오버플로 방지)
+    }
+    
+    print(dp[num])  // ✅ 나머지 연산을 반복문 안에서 이미 처리했으므로 생략 가능
+}
+
+fibo_dp_11726(num: 9)     // ✅ 정상 출력: 55
+//fibo_dp_11726(num: 1001)  // ❌ 오류 메시지 출력
+
+// 동적 계획 코딩테스트에서 자주나오는 빈출 유형임
+
+// https://www.acmicpc.net/problem/9461
+
+func fibo_dp_9461(num: Int) {
+    // ✅ 입력값 검증: 1 이상 100 이하인지 확인
+    guard num >= 1 && num <= 100 else {
+        print("❌ Error: num은 1 이상 100 이하의 값이어야 합니다.")
+        return
+    }
+    
+    var dp: [Int] = Array(repeating: 0, count: 101)
+    dp[1] = 1
+    dp[2] = 1
+    dp[3] = 1
+    
+    for i in 0...97 {
+        dp[i + 3] = (dp[i] + dp[i + 1])
+    }
+    
+    print(dp[num])
+}
+
+fibo_dp_9461(num: 12)
