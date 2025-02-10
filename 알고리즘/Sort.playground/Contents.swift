@@ -326,3 +326,50 @@ func quicksort(array : [Int]) -> [Int] {
 }
 
 print(quicksort(array: [2, 5, 1, 1, 3, 4]))
+
+//MARK: 병합 정렬
+func mergeSplit(array : [Int]) -> [Int] {
+    if array.count <= 1 {
+        return array
+    }
+    
+    var medium = Int(array.count / 2)
+    var leftArray = mergeSplit(array: Array(array[0..<medium]))
+    var rightArray = mergeSplit(array: Array(array[medium..<array.count]))
+    
+    return merge(left: leftArray, right: rightArray)
+}
+
+func merge(left : [Int], right : [Int]) -> [Int] {
+    
+    var merged = [Int]()
+    var leftIndex = 0
+    var rightIndex = 0
+    
+    // case1 - left/right 둘다 있을때
+    while left.count > leftIndex && right.count > rightIndex {
+        if left[leftIndex] > right[rightIndex]{
+            merged.append(right[rightIndex])
+            rightIndex += 1
+        }else {
+            merged.append(left[leftIndex])
+            leftIndex += 1
+        }
+    }
+    
+    // case2 - left 데이터가 남아 있을때
+    while left.count > leftIndex {
+        merged.append(left[leftIndex])
+        leftIndex += 1
+    }
+    
+    // case2 - right 데이터가 남아 있을때
+    while right.count > rightIndex {
+        merged.append(right[rightIndex])
+        rightIndex += 1
+    }
+    
+    return merged
+}
+
+print(mergeSplit(array: [20, 30, 10, 50, 40, 70, 60, 80, 90, 100]))
