@@ -183,3 +183,5 @@ print("\n=== 최소 신장 트리(MST) 간선 목록 ===")
 for edge in mstResult2 {
     print("🔹 \(edge.1) - \(edge.2) : \(edge.0)")
 }
+
+
