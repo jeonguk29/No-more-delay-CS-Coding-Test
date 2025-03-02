@@ -1,6 +1,4 @@
 
-import Foundation
-
 /*
  ✅ 오버헤드(Overhead)란?
  "오버헤드(Overhead)"란 프로그램을 실행하거나 특정 연산을 수행할 때 추가로 발생하는 비용(리소스, 시간, 메모리 등)을 의미해.
@@ -11,8 +9,11 @@ import Foundation
 //MARK: 연결 리스트는 연속되지 않은 메모리에 저장된 데이터들을 연결시켜 놓은 것
 
 
+
 import Foundation
 
+//MARK: 단일타입
+/*
 // ✅ 노드 클래스 정의
 class Node {
     var data: Int
@@ -97,12 +98,15 @@ linkedList.printList()  // ✅ 출력: 10 -> 20 -> 40 -> nil
 print("\n🗑️ 노드 삭제 (10) - 헤드 삭제")
 linkedList.delete(10)
 linkedList.printList()  // ✅ 출력: 20 -> 40 -> nil
+*/
 
 
-// ✅ 제네릭 `Node<T>` 클래스 정의
-class Node2<T> {
+//MARK: 제네릭 타입
+
+// ✅ 제네릭 `Node<T>` 클래스 정의 (단방향 연결 리스트)
+class Node<T> {
     var data: T
-    var next: Node2<T>?
+    var next: Node<T>?
 
     init(_ data: T) {
         self.data = data
@@ -110,13 +114,13 @@ class Node2<T> {
     }
 }
 
-// ✅ 제네릭 `LinkedList<T>` 클래스 정의
-class LinkedList2<T> {
-    var head: Node2<T>?  // ✅ 첫 번째 노드(헤드)
+// ✅ 제네릭 `LinkedList<T>` 클래스 정의 (단방향 연결 리스트)
+class LinkedList<T> {
+    var head: Node<T>?  // ✅ 첫 번째 노드(헤드)
 
     // ✅ 노드 추가 (맨 끝에 추가)
     func add(_ data: T) {
-        let newNode = Node2(data)
+        let newNode = Node(data)
         if head == nil {  // 리스트가 비어 있으면 새로운 헤드 설정
             head = newNode
             return
@@ -162,7 +166,43 @@ class LinkedList2<T> {
         }
         print("nil")  // 마지막에 nil 표시
     }
+
+    // ✅ 특정 데이터가 있는 노드를 찾기 (앞에서부터)
+    func search(_ data: T) -> Node<T>? where T: Equatable {
+        var node = head
+        while node != nil {
+            if node?.data == data {
+                return node  // 찾은 노드를 반환
+            }
+            node = node?.next  // 다음 노드로 이동
+        }
+        return nil  // 찾을 수 없으면 nil 반환
+    }
 }
+
+let linkedList = LinkedList<Int>()
+linkedList.add(1)
+linkedList.add(2)
+linkedList.add(3)
+linkedList.add(4)
+
+linkedList.printList()  // 1 -> 2 -> 3 -> 4 -> nil
+
+// 검색 예시
+if let foundNode = linkedList.search(3) {
+    print("찾은 노드의 데이터: \(foundNode.data)")  // 결과: 3
+} else {
+    print("찾은 노드가 없습니다.")
+}
+
+// 찾을 수 없는 값 검색
+if let foundNode = linkedList.search(5) {
+    print("찾은 노드의 데이터: \(foundNode.data)")
+} else {
+    print("찾은 노드가 없습니다.")  // 결과: 찾은 노드가 없습니다.
+}
+
+
 /*
  delete(_ data: T)에서 Equatable을 사용한 이유
  제네릭(T)은 기본적으로 == 비교 연산을 사용할 수 없음.
